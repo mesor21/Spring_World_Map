@@ -23,15 +23,6 @@ import java.io.File;
 public class CityRepository {
     private static final String FILE_NAME = "src/main/resources/static/xml.xml";
 
-    public Long getLastId() {
-        List<City> cityList = getAllCity();
-        if (!cityList.isEmpty()) {
-            City lastCity = cityList.get(cityList.size() - 1);
-            return lastCity.getId();
-        }
-        return Long.parseLong("0");
-    }
-
     public City saveCity(City city) {
         List<City> cityList = getAllCity();
         if(cityList.isEmpty()){
@@ -58,7 +49,7 @@ public class CityRepository {
             } catch (SAXException | IOException e) {
                 throw new RuntimeException(e);
             }
-        } else {            // If the file does not exist, create a new document
+        } else {
             document = documentBuilder.newDocument();
             root = document.createElement("cities");
             document.appendChild(root);

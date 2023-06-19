@@ -13,7 +13,7 @@ public class City {
         this.countryName="";
         this.phoneCode="";
         this.signOfTheCapital="";
-        this.countPerson=1;
+        this.countPerson=0;
     }
 
     public City(Long id, String cityName, String countryName, String phoneCode, String signOfTheCapital, int countPerson) {

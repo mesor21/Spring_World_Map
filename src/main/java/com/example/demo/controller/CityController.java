@@ -37,4 +37,12 @@ public class CityController {
     public void delete(@PathVariable String id){
         service.delete(id);
     }
+    @GetMapping("/mode")
+    public City getMode(){
+        return service.getMode();
+    }
+    @GetMapping("/median")
+    public double getMedian(){
+        return service.getMedian();
+    }
 }
