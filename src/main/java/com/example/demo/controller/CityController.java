@@ -41,11 +41,11 @@ public class CityController {
         service.update(city);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable String id){
+    public ResponseEntity<String> delete(@PathVariable String id){
         if(service.delete(id)){
-            ResponseEntity.ok().headers(headers).body(true);
+            ResponseEntity.ok().headers(headers).body("Process delete done success complete");
         }
-        return ResponseEntity.badRequest().headers(headers).body(false);
+        return ResponseEntity.badRequest().headers(headers).body("Error \nIndex out of range");
     }
     @GetMapping("/mode")
     public ResponseEntity<City> getMode(){
@@ -57,6 +57,6 @@ public class CityController {
     }
     @GetMapping("/about")
     public String getAbout(){
-        return "Бирюков Алексей Александрович\n  УВА-211\n  Предметная область: карта мира";
+        return "Бирюков Алексей Александрович\nУВА-211\nПредметная область: карта мира";
     }
 }
