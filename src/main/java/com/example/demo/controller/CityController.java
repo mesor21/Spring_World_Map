@@ -14,7 +14,7 @@ import java.util.List;
 public class CityController {
     @Autowired
     private CityService service;
-    private String lastName = "test";
+    private String lastName = "Birukov";
     HttpHeaders headers = new HttpHeaders();
 
     public CityController() {
