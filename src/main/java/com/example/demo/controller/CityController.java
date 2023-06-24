@@ -4,6 +4,7 @@ import com.example.demo.entity.City;
 import com.example.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +41,11 @@ public class CityController {
         service.update(city);
     }
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id){
-        service.delete(id);
+    public ResponseEntity<Boolean> delete(@PathVariable String id){
+        if(service.delete(id)){
+            ResponseEntity.ok().headers(headers).body(true);
+        }
+        return ResponseEntity.badRequest().headers(headers).body(false);
     }
     @GetMapping("/mode")
     public ResponseEntity<City> getMode(){
@@ -50,5 +54,9 @@ public class CityController {
     @GetMapping("/median")
     public ResponseEntity<Double> getMedian(){
         return ResponseEntity.ok().headers(headers).body(service.getMedian());
+    }
+    @GetMapping("/about")
+    public String getAbout(){
+        return "Бирюков Алексей Александрович\n  УВА-211\n  Предметная область: карта мира";
     }
 }

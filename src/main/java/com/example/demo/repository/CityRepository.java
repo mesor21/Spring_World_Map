@@ -113,7 +113,7 @@ public class CityRepository {
         return city;
     }
 
-    public void deleteCity(Long id) {
+    public boolean deleteCity(Long id) {
         if (!new File(FILE_NAME).exists()) {
             throw new RuntimeException("File not found: " + FILE_NAME);
         }
@@ -149,32 +149,32 @@ public class CityRepository {
 
             if (idField == id) {
                 node.getParentNode().removeChild(node);
-                break;
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer;
+                try {
+                    transformer = transformerFactory.newTransformer();
+                } catch (TransformerConfigurationException e) {
+                    throw new RuntimeException(e);
+                }
+                DOMSource source = new DOMSource(document);
+
+                FileOutputStream outputStream;
+                try {
+                    outputStream = new FileOutputStream(new File(FILE_NAME));
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                StreamResult result = new StreamResult(outputStream);
+
+                try {
+                    transformer.transform(source, result);
+                } catch (TransformerException e) {
+                    throw new RuntimeException(e);
+                }
+                return true;
             }
         }
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer;
-        try {
-            transformer = transformerFactory.newTransformer();
-        } catch (TransformerConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        DOMSource source = new DOMSource(document);
-
-        FileOutputStream outputStream;
-        try {
-            outputStream = new FileOutputStream(new File(FILE_NAME));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        StreamResult result = new StreamResult(outputStream);
-
-        try {
-            transformer.transform(source, result);
-        } catch (TransformerException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 
     public List<City> getAllCity() {

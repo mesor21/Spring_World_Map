@@ -22,8 +22,8 @@ public class CityService {
     public City update(City city){
         return cityRepository.updateCity(city);
     }
-    public void delete(String id){
-        cityRepository.deleteCity(Long.parseLong(id));
+    public boolean delete(String id){
+        return cityRepository.deleteCity(Long.parseLong(id));
     }
     public void saveNewCity(){
         cityRepository.saveCity(new City());
