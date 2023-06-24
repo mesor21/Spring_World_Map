@@ -3,9 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.City;
 import com.example.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +14,26 @@ import java.util.List;
 public class CityController {
     @Autowired
     private CityService service;
+    private String lastName = "test";
+    HttpHeaders headers = new HttpHeaders();
+
+    public CityController() {
+        headers.add("Last-Name",lastName);
+    }
 
     @GetMapping("/")
-    public List<City> getCityList(){
-        return service.getAll();
+    public ResponseEntity<List<City>> getCityList(){
+
+        return ResponseEntity.ok().headers(headers).body(service.getAll());
     }
     @GetMapping("/{id}")
-    public City getById(@PathVariable String id){
-        return service.getById(Long.parseLong(id));
+    public ResponseEntity<City> getById(@PathVariable String id){
+        return ResponseEntity.ok().body(service.getById(Long.parseLong(id)));
     }
     @PostMapping("/")
-    public List<City> createNew(){
+    public ResponseEntity<List<City>> createNew(){
         service.saveNewCity();
-        return service.getAll();
+        return ResponseEntity.ok().headers(headers).body(service.getAll());
     }
     @PutMapping("/")
     public void update(@RequestBody City city){
@@ -38,11 +44,11 @@ public class CityController {
         service.delete(id);
     }
     @GetMapping("/mode")
-    public City getMode(){
-        return service.getMode();
+    public ResponseEntity<City> getMode(){
+        return ResponseEntity.ok().headers(headers).body(service.getMode());
     }
     @GetMapping("/median")
-    public double getMedian(){
-        return service.getMedian();
+    public ResponseEntity<Double> getMedian(){
+        return ResponseEntity.ok().headers(headers).body(service.getMedian());
     }
 }
